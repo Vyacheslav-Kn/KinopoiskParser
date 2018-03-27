@@ -1,0 +1,11 @@
+D:\c#_projects\KinopoiskParser\KinopoiskParser\bin\Debug\KinopoiskParser.exe.config
+D:\c#_projects\KinopoiskParser\KinopoiskParser\bin\Debug\KinopoiskParser.exe
+D:\c#_projects\KinopoiskParser\KinopoiskParser\bin\Debug\KinopoiskParser.pdb
+D:\c#_projects\KinopoiskParser\KinopoiskParser\bin\Debug\HtmlAgilityPack.dll
+D:\c#_projects\KinopoiskParser\KinopoiskParser\bin\Debug\WebDriver.dll
+D:\c#_projects\KinopoiskParser\KinopoiskParser\bin\Debug\HtmlAgilityPack.pdb
+D:\c#_projects\KinopoiskParser\KinopoiskParser\bin\Debug\HtmlAgilityPack.xml
+D:\c#_projects\KinopoiskParser\KinopoiskParser\bin\Debug\WebDriver.xml
+D:\c#_projects\KinopoiskParser\KinopoiskParser\obj\Debug\KinopoiskParser.csprojResolveAssemblyReference.cache
+D:\c#_projects\KinopoiskParser\KinopoiskParser\obj\Debug\KinopoiskParser.exe
+D:\c#_projects\KinopoiskParser\KinopoiskParser\obj\Debug\KinopoiskParser.pdb

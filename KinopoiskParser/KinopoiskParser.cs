@@ -156,6 +156,8 @@ namespace KinopoiskParser
                     load_data_to_file(filmPathOnSite, filePath);
                 }
             }
+            chromeDriver.Close();
+            chromeDriver.Quit();            
         }
     }
 }

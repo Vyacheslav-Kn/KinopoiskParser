@@ -12,11 +12,11 @@ namespace KinopoiskParser
 {
     public class KinopoiskParser
     {
-        public string websiteRoot { get; set; }
-        public string websiteSection { get; set; }
-        public string startPage { get; set; }
-        public string endPage { get; set; }
-        public string directoryPath { get; set; }
+        private string websiteRoot { get; set; }
+        private string websiteSection { get; set; }
+        private string startPage { get; set; }
+        private string endPage { get; set; }
+        private string directoryPath { get; set; }
         private IWebDriver chromeDriver;
 
         public KinopoiskParser(string websiteRoot, string websiteSection, string startPage, string endPage, string directoryPath)
@@ -31,7 +31,7 @@ namespace KinopoiskParser
             chromeDriver = new ChromeDriver(chromeOptions);
         }
 
-        private void clearfix(ref string valueTemp)
+        private void clearFix(ref string valueTemp)
         {
             valueTemp = valueTemp.Trim();
             valueTemp = Regex.Replace(valueTemp, @"\s+", " ");
@@ -46,14 +46,14 @@ namespace KinopoiskParser
             valueTemp = Regex.Replace(valueTemp, @"\s+", " ");
         }
 
-        private string get_page_url(string page)
+        private string getPageUrl(string page)
         {
             string endPageUrl = "page/" + page + "/#results";
             string url = websiteSection.Replace("#results", endPageUrl);
             return url;
         }
 
-        private string clear_film_name(string name)
+        private string clearFilmName(string name)
         {
             string filmName = name;
             if (filmName.IndexOf(": ") > -1) { filmName = filmName.Replace(": ", " "); }
@@ -62,7 +62,7 @@ namespace KinopoiskParser
             return filmName;
         }
 
-        private void load_data_to_file(string filmPathTemp, string filePathTemp)
+        private void loadDataToFile(string filmPathTemp, string filePathTemp)
         {
             string filmPage = websiteRoot + filmPathTemp;
             string filePath = filePathTemp;
@@ -97,21 +97,21 @@ namespace KinopoiskParser
                         }
                         string characteristic = tdCollection[0].InnerText;
                         string value = tdCollection[1].InnerText;
-                        clearfix(ref characteristic);
-                        clearfix(ref value);
+                        clearFix(ref characteristic);
+                        clearFix(ref value);
                         writer.WriteLine("{0}: {1}", characteristic, value);
                     }
                 }
                 tableNode = htmlDoc.DocumentNode.SelectSingleNode("//body/div[contains(concat(' ', @class, ' '), 'shadow') and contains(@class, 'content')]/div[contains(@id,'content_block')]/table//table//table//tr/td/form/div[contains(@id,'block_rating')]/div[@class='block_2']/div[2]");
                 string imdB = tableNode.InnerText;
-                clearfix(ref imdB);
+                clearFix(ref imdB);
                 writer.WriteLine("{0}", imdB);
                 // сценарий фильма
                 writer.WriteLine();
                 writer.WriteLine("СЮЖЕТ");
                 HtmlNode descriptionNode = htmlDoc.DocumentNode.SelectSingleNode("//body/div[contains(concat(' ', @class, ' '), 'shadow') and contains(@class, 'content')]/div[contains(@id,'content_block')]/table/tbody//table/tbody//table/tbody/tr/td/span/div[contains(concat(' ', @class, ' '), 'brand_words') and contains(@class, 'film-synopsys')]");
                 string description = descriptionNode.InnerText;
-                clearfix(ref description);
+                clearFix(ref description);
                 writer.WriteLine("{0}", description);
                 // список актеров
                 writer.WriteLine();
@@ -140,7 +140,7 @@ namespace KinopoiskParser
         {
             for (int page = int.Parse(startPage); page < int.Parse(endPage); page++)
             {
-                chromeDriver.Url = get_page_url(page.ToString());
+                chromeDriver.Url = getPageUrl(page.ToString());
                 string pageText = chromeDriver.PageSource;
                 HtmlDocument htmlDoc = new HtmlDocument();
                 htmlDoc.LoadHtml(pageText);
@@ -149,11 +149,11 @@ namespace KinopoiskParser
                 foreach (HtmlNode filmNode in filmsNodes)
                 {
                     string filmName = filmNode.SelectSingleNode("./div[@class = 'info']/div[@class = 'name']/a").InnerText;
-                    filmName = clear_film_name(filmName);
+                    filmName = clearFilmName(filmName);
 
                     string filmPathOnSite = filmNode.SelectSingleNode("./div[@class = 'info']/div[@class = 'name']/a").Attributes["href"].Value;
                     string filePath = directoryPath + "\\" + filmName + ".txt";
-                    load_data_to_file(filmPathOnSite, filePath);
+                    loadDataToFile(filmPathOnSite, filePath);
                 }
             }
             chromeDriver.Close();
